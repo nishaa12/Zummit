@@ -1,37 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-
-const useFetch = (url) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(url);
-        setData(res.data);
-      } catch (err) {
-        setError(err);
-      }
-      setLoading(false);
-    };
-    fetchData();
-  }, [url]);
-
-  return { data, loading, error };
-};
+import useFetch from "../utils/fetchData";
 
 const Therapists = () => {
   const [allTherapists, setAllTherapists] = useState([]);
   const [searchInput, setSearchInput] = useState(undefined);
 
   const url = searchInput
-    ? `https://zummit-kefo.onrender.com/api/booking/getTherapistDetails?name=${searchInput}`
-    : "https://zummit-kefo.onrender.com/api/booking/getTherapistDetails";
+    ? `https://zummit-chandan.onrender.com/api/users/booking/getTherapistDetails?name=${searchInput}`
+    : "https://zummit-chandan.onrender.com/api/users/booking/getTherapistDetails";
 
   const { data, loading, error } = useFetch(url);
 

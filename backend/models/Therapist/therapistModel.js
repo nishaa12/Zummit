@@ -1,33 +1,80 @@
+const mongoose = require("mongoose");
 
-const mongoose = require('mongoose');
-
-const therapistSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Please add a name'],
+const therapistSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    professional_title: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    about: {
+      why_therapist: {
+        type: String,
+      },
+      work_with_me: {
+        type: String,
+      },
+      qualification: {
+        type: String,
+      },
+    },
+    date_of_birth: {
+      type: Date,
+    },
+    experience: {
+      type: Number,
+      default: 0,
+    },
+    expertise: {
+      type: [String],
+    },
+    languages: {
+      type: [String],
+    },
+    appointments: {
+      type: [String],
+    },
+    groups: {
+      type: [String],
+    },
+    session_fee: {
+      type: Number,
+      default: 499,
+    },
+    review: {
+      type: Number,
+      default: 0,
+    },
+    role: {
+      type: String,
+      default: "therapist",
+    },
+    registeredAt: {
+      type: Date,
+      default: Date.now,
+    },
+    observation: {
+      type: [String],
+    },
+    admin: {
+      type: String,
+    },
   },
-  input: {
-    type: String,
-    required: [true, 'Please add an email or phone number'],
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: [true, 'Please add a password'],
-  },
-  role: {
-    type: String,
-    required: [true, 'Please add a role'],
-  },
-  registeredAt: {
-    type: Date,
-    default: Date.now,
-  },
-  admin :{
-    type : String,
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true,
-});
+);
 
-module.exports = mongoose.model('Therapist', therapistSchema);
+module.exports = mongoose.model("Therapist", therapistSchema);

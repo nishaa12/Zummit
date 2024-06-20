@@ -1,82 +1,39 @@
 const asyncHandler = require("express-async-handler");
-const jwt = require("jsonwebtoken"); 
-const Appointment = require("../../models/Admin/adminAppointmentModel");
-const { validationResult } = require('express-validator');
-const AdminLoginRegister = require("../../models/Admin/AdminRegisterLogin/adminModel");
+const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 
-const appointmentsList = asyncHandler(async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+const User = require("../../models/User/userModel");
+const AppointmentList = require("../../models/User/AppointmentModel");
 
-    const { input, token } = req.body;
-
-    try {
-      const admin = await AdminLoginRegister.findOne({ input }).select(
-        "-password"
-      )
-      if (!admin) {
-        return res.status(404).json({ message: "Appointment list not found" });
-      }
-
-     
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      if (JSON.stringify(decodedToken.id)!== JSON.stringify(admin._id)) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      const appointmentsLists=await Appointment.find({});
-      
-
-      res.status(200).json({
-        success: true,
-        adminAppointmentList:appointmentsLists,
-        message: "Appointments list Granted"
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
-    }
-});
-
-const createAppointment = asyncHandler(async (req, res) => {
+const appointmentList = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { input, token, appointmentData } = req.body;
+  const { input, token } = req.body;
 
-  if (
-    !input ||
-    !token ||
-    !appointmentData
-  ) {
-    return res.status(402).json({ message: "Please fill all fileds" });
+  if (!input || !token) {
+    return res.status(400).json({ message: "Input and token are required" });
   }
 
   try {
-    const admin = await AdminLoginRegister.findOne({ input }).select(
-      "-password"
-    )
-    if (!admin) {
-      return res.status(404).json({ message: "Admin not found" });
+    const user = await User.findOne({ input }).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    if (JSON.stringify(decodedToken.id) !== JSON.stringify(admin._id)) {
+    if (decodedToken.id !== user._id.toString()) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const newAppointment = new Appointment(appointmentData);
+    const appointmentList = await AppointmentList.find({ user: user._id });
 
-    await newAppointment.save();
-
-    res.status(201).json({
+    res.status(200).json({
       success: true,
-      message: "Appointment created successfully",
-      appointment: newAppointment
+      appointmentList: appointmentList,
+      message: "Appointment List retrieved successfully",
     });
   } catch (error) {
     console.error(error);
@@ -84,4 +41,45 @@ const createAppointment = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports={appointmentsList,createAppointment};
+const createAppointmentList = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { input, token, appointmentListData } = req.body;
+
+  if (!input || !token || !appointmentListData) {
+    return res.status(400).json({ message: "Input, token, and appointment list data are required" });
+  }
+
+  try {
+    const user = await User.findOne({ input }).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    if (decodedToken.id !== user._id.toString()) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const newAppointmentList = new AppointmentList({
+      user: user._id,
+      ...appointmentListData
+    });
+
+    await newAppointmentList.save();
+
+    res.status(201).json({
+      success: true,
+      message: "New appointment list created successfully",
+      newAppointmentList: newAppointmentList,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+module.exports = { appointmentList, createAppointmentList };
