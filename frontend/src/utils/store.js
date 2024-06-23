@@ -3,6 +3,7 @@ import userSlice from "./userSlice";
 import bookingSlice from "./bookingSlice";
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import adminSlice from "./adminSlice";
 
 const persistConfig = {
     key: 'store',
@@ -10,6 +11,7 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
+    admin:adminSlice,
     user: userSlice,
     booking: bookingSlice
 })

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 //main component toh yaha hey
-const Login_reg = () => {
+const SignUp = () => {
   const dispatch = useDispatch();
   const [signUp, setSignUp] = useState(true);
   const [role, setRole] = useState("Client");
@@ -31,7 +31,7 @@ const Login_reg = () => {
 
     try {
       const response = await fetch(
-        "https://zummit-kefo.onrender.com/api/users/register",
+        "https://zummit-chandan.onrender.com/api/users/register",
         {
           method: "POST",
           headers: {
@@ -287,103 +287,64 @@ const Login_reg = () => {
             </div>
           )}
           <div className="w-[50%] flex flex-col gap-5 shadow-lg rounded-lg  bg-white p-5">
-            <p className="text-center text-3xl font-medium">
-              Login
-            </p>
+            <p className="text-center text-3xl font-medium">SignUp</p>
             <div className="font-bold text-xl">
-              <p>
-                Client
-              </p>
+              <p>Admin</p>
             </div>
-
-            {!showSection ? (
-              <div className="flex flex-col gap-3">
-                {!signUp && (
-                  <input
-                    className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
-                    type="text"
-                    value={name}
-                    onChange={handleNameChange}
-                    placeholder="Full Name"
-                  />
-                )}
-                {
-                  <input
-                    className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
-                    type="text"
-                    value={input}
-                    onChange={handleInputChange}
-                    placeholder="Email or Phone Number"
-                  />
-                }
-                {
-                  <input
-                    className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
-                    type="password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    placeholder="Password"
-                  />
-                }
-                {!signUp && (
-                  <input
-                    className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
-                    type="password"
-                    value={reEnterPassword}
-                    onChange={handleReEnterPassword}
-                    placeholder="Re-Enter Passowrd"
-                  />
-                )}
-                <p className="m-0 p-0 text-red-600"> {error} </p>
-                <button
-                  onClick={handleSubmission}
-                  className="w-[40%] rounded-lg bg-yellow p-2 text-green-500 text-base"
-                >
-                  {!signUp ? "Login" : "Send OTP"}
-                </button>
-              <Link to={'/admin-register'}>
-              <p
+            <div className="flex flex-col gap-3">
+              <input
+                className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
+                type="text"
+                value={name}
+                onChange={handleNameChange}
+                placeholder="Full Name"
+              />
+              <input
+                className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
+                type="text"
+                value={input}
+                onChange={handleInputChange}
+                placeholder="Email or Phone Number"
+              />
+              <input
+                className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="Password"
+              />
+              <input
+                className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
+                type="password"
+                value={reEnterPassword}
+                onChange={handleReEnterPassword}
+                placeholder="Re-Enter Passowrd"
+              />
+              <p className="m-0 p-0 text-red-600"> {error} </p>
+              <button
+                onClick={handleSubmission}
+                className="w-[40%] rounded-lg bg-yellow p-2 text-green-500 text-base"
+              >
+                {signUp ? "SignUp" : "Send OTP"}
+              </button>
+              <Link to={"/admin-login"}>
+                <p
+                  onClick={handleClick}
                   className="text-cyan-500 cursor-pointer"
                 >
-               SignUp
+                  Already Registered ? Login Now
                 </p>
               </Link>
-                {signUp ? (
-                  <Link to="/forgot-password">
-                    <p className="text-cyan-500 cursor-pointer mt-[-10px]">
-                      Forgot Password?
-                    </p>
-                  </Link>
-                ) : (
-                  <></>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col gap-3">
-                {/* <input
-                  className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
-                  type="text"
-                  value={input}
-                  onChange={handleInputChange}
-                  placeholder="Email or Phone Number"
-                /> */}
-                <input
-                  className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
-                  type="number"
-                  value={otpVerify}
-                  onChange={handleOtpVerify}
-                  placeholder="Enter OTP"
-                />
-                <div className="flex justify-center items-center">
-                  <button
-                    type="submit"
-                    className="w-[30%]  font-semibold rounded-lg bg-yellow p-2 text-green-500 text-base"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
+              {signUp ? (
+                <Link to="/forgot-password">
+                  <p className="text-cyan-500 cursor-pointer mt-[-10px]">
+                    Forgot Password?
+                  </p>
+                </Link>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </div>
         {/* Right Container */}
@@ -409,4 +370,4 @@ const Login_reg = () => {
   );
 };
 
-export default Login_reg;
+export default SignUp;
