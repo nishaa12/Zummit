@@ -115,7 +115,42 @@
       ],
       "Testing Feedback": "The Admin Client component has been tested and found to be working well with minor issues. The UI is not responsive and the data is not correctly retrieved from the backend. However, some bugs were identified and reported, such as  missmatch content, Data between the Figma design and Live UI, and the missing admin image and the use of static data. The fixes for these bugs have been identified and will be implemented in the next iteration.",
       "Performance": "Good, but there is scope for improving the quality of the code."
+
+    },
+
+    {
+      "component Name": "Admin Reviews",
+      "Testing Requirement": "Referenced by QA ticket - https://github.com/chandan24042001s/Zummit/issues/134",
+      "Testing Type": "Manually tested",
+      "Tested Cases":[
+        "Verify if the Admin Reviews of Live UI is exactly match with the Figma UI",
+        "Validate the Data response from the backend"
+      ],
+      "Failure Cases": "Bugs",
+      "Accuracy": "95%",
+      "Bugs Reported": [
+        {
+          "Description": "the heading Clients of Reviews page on Live UI does not match with the Figma design."
+        },
+        {
+          "ScreenShots": "Attached the screenshots of admin Reviews Live UI and Admin Review Figma design located in the Testing folder, for your reference."
+        }
+       ],
+      "Fixes to be Done": [
+        {
+          "Description": "Please send the proper response from the backend."
+        },
+        {
+          "Description": "UI alignment can be polished more to improve appearance."
+        }
+      ],
+      "Testing Feedback": "The Admin Riview component has been tested and found to be working well with minor issues. The UI is not responsive and the data is not correctly retrieved from the backend. However, some bugs were identified and reported, such as  missmatch content, Data between the Figma design and Live UI, and the missing admin image and the use of static data. The fixes for these bugs have been identified and will be implemented in the next iteration.",
+      "Performance": "Good, but there is scope for improving the quality of the code."
     }
+
+
+    }
+
     
 
   ]

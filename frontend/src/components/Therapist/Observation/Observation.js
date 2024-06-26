@@ -1,54 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Add_Observation from "./Add_Observation";
 
 const Observation = () => {
   const [addNew, setAddNew] = useState(true);
-  const [selectedGroupIndex, setSelectedGrupIndex] = useState(0);
+  const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://zummit-chandan.onrender.com/api/therapist/getTherapistObservationLists')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the data!", error);
+      });
+  }, []);
 
   const selectedGroup = (index) => {
-    setSelectedGrupIndex(index);
+    setSelectedGroupIndex(index);
   };
+
   const toggleHandler = () => {
     setAddNew(!addNew);
   };
-  const data = [
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-    {
-      name: "Carrier goal with Aaryan",
-      date: "12/12/2023",
-    },
-  ];
+
   return (
     <>
       {addNew ? (
@@ -128,9 +104,12 @@ const Observation = () => {
               <div>
                 {data.map((item, index) => (
                   <div
-                  onClick={() => selectedGroup(index)}
-                  key={index}
-                  className={`flex rounded-md my-2 justify-between items-center px-4 py-2 ${selectedGroupIndex === index ? "bg-[#FDFEE6]" : "bg-[#EFF7FF]"}`}>
+                    onClick={() => selectedGroup(index)}
+                    key={index}
+                    className={`flex rounded-md my-2 justify-between items-center px-4 py-2 ${
+                      selectedGroupIndex === index ? "bg-[#FDFEE6]" : "bg-[#EFF7FF]"
+                    }`}
+                  >
                     <div className="flex gap-2 items-center">
                       <svg
                         width="18"
