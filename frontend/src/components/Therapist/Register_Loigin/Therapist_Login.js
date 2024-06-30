@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";  
 
-const Login = () => {
+const Therapist_Login = () => {
   const dispatch = useDispatch();
   const [signUp, setSignUp] = useState(true);
   const [role, setRole] = useState("Client");
@@ -96,7 +96,43 @@ const Login = () => {
     }
   };
 
+  const TherapistLogin = async (loginData) => {
+    try {
+      const response = await fetch(
+        "http://localhost:4000/api/therapist/loginTherapist",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginData),
+          credentials: "include", // Changed from 'true' to 'include' for clarity
+          withCredentials: true,
+        }
+      );
 
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+
+      dispatch(addUser(data));
+      navigate("/therapist-home");
+      console.log(response);
+
+      //reload kee baad bhi data remain constant
+      localStorage.setItem("token", data.token);
+
+      //jaao token leke aao
+      const token = response["Authorization"];
+      if (!token) {
+        throw new Error("Token not found in response headers");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   //token check karo reload kee baad
   const checkForToken = () => {
@@ -252,7 +288,7 @@ const Login = () => {
           <div className="w-[50%] flex flex-col gap-5 shadow-lg rounded-lg  bg-white p-5">
             <p className="text-center text-3xl font-medium">Login</p>
             <div className="font-semibold text-2xl">
-              <p>Admin</p>
+              <p>Therapist</p>
             </div>
 
             {!showSection ? (
@@ -296,11 +332,15 @@ const Login = () => {
                 <p className="m-0 p-0 text-red-600"> {error} </p>
                 <button
                   onClick={handleSubmission}
-                  className="w-[40%] rounded-lg bg-yellow p-2 text-green-500"
+                  className="w-[40%] rounded-lg bg-yellow p-2 text-green-500 "
                 >
+
+        
+
                   {signUp ? "Login" : "Send OTP"}
+
                 </button>
-                <Link to={"/admin-register"}>
+                <Link to={"/therapist-register"}>
                   <p className="text-cyan-500 cursor-pointer">SignUp</p>
                 </Link>
                 {signUp ? (
@@ -364,4 +404,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Therapist_Login;
