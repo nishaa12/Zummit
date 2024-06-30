@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 //main component toh yaha hey
-const SignUp = () => {
+const Therapist_SignUp = () => {
   const dispatch = useDispatch();
   const [signUp, setSignUp] = useState(true);
   const [role, setRole] = useState("Client");
@@ -21,16 +21,7 @@ const SignUp = () => {
   const [showGif, setShowGif] = useState(true);
   const navigate = useNavigate();
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
-
-
-
-
-  const registerAdmin = async (userData) => {
+  const registerUser = async (userData) => {
     console.log(userData);
     // Check if OTP and verifyOTP are equal
     if (OTP != otpVerify) {
@@ -40,7 +31,7 @@ const SignUp = () => {
 
     try {
       const response = await fetch(
-        "https://zummit-chandan.onrender.com/api/admin/adminRegister",
+        "https://zummit-chandan.onrender.com/api/users/register",
         {
           method: "POST",
           headers: {
@@ -72,7 +63,7 @@ const SignUp = () => {
   const loginUser = async (loginData) => {
     try {
       const response = await fetch(
-        "https://zummit-chandan.onrender.com/api/admin/adminRegister",
+        "https://zummit-kefo.onrender.com/api/users/login",
         {
           method: "POST",
           headers: {
@@ -153,10 +144,22 @@ const SignUp = () => {
     }
   };
 
+  //re-render kee baad call karo
+  // useEffect(() => {
+  //   checkForToken();
+  // }, []);
+
   const handleClick = () => {
     setSignUp(!signUp);
   };
-
+  const handleClient = () => {
+    setRole("Client");
+    console.log("Client");
+  };
+  const handleTherapist = () => {
+    setRole("Therapist");
+    console.log("Thearipist");
+  };
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
@@ -167,6 +170,10 @@ const SignUp = () => {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
+  };
+
+  const handleReEnterPassword = (e) => {
+    setReEnterPassword(e.target.value);
   };
 
   const handleOtpVerify = (e) => {
@@ -233,7 +240,7 @@ const SignUp = () => {
     };
 
     if (!signUp) {
-      await registerAdmin(userData);
+      await registerUser(userData);
     } else {
       const loginData = {
         input,
@@ -282,7 +289,7 @@ const SignUp = () => {
           <div className="w-[50%] flex flex-col gap-5 shadow-lg rounded-lg  bg-white p-5">
             <p className="text-center text-3xl font-medium">SignUp</p>
             <div className="font-semibold text-2xl">
-              <p>Admin</p>
+              <p>Therapist</p>
             </div>
             <div className="flex flex-col font-medium text-lg gap-3">
               <input
@@ -299,67 +306,27 @@ const SignUp = () => {
                 onChange={handleInputChange}
                 placeholder="Email or Phone Number"
               />
-              <div className="flex rounded-md items-center bg-cyan-100">
-                <input
-                  type={isPasswordVisible ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  className="w-[90%] p-2 bg-cyan-100 rounded-md outline-none"
-                />
-                <span
-                  onClick={togglePasswordVisibility}
-                  className="password-toggle-icon"
-                >
-                  {isPasswordVisible ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="gray"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="icon icon-tabler icons-tabler-outline icon-tabler-eye"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                      <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="gray"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="icon icon-tabler icons-tabler-outline icon-tabler-eye-off"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
-                      <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
-                      <path d="M3 3l18 18" />
-                    </svg>
-                  )}
-                </span>
-              </div>
-              <p className="m-0 p-0 text-red-600"> {error} </p>
               <input
-                className="w-[90%] py-2 file:mr-5 focus:outline-none rounded-xl  file:rounded-lg file:text-base file:border-none file:font-semibold file:bg-yellow file:text-green-500 file:px-4 file:py-2"
-                type="file"/>
+                className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="Password"
+              />
+              <input
+                className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
+                type="password"
+                value={reEnterPassword}
+                onChange={handleReEnterPassword}
+                placeholder="Re-Enter Passowrd"
+              />
+              <p className="m-0 p-0 text-red-600"> {error} </p>
               <button
                 onClick={handleSubmission}
-                className="w-[40%] rounded-lg bg-yellow p-2 text-green-500"
-              >
+                className="w-[40%] rounded-lg bg-yellow p-2 text-green-500 ">
                 {signUp ? "SignUp" : "Send OTP"}
               </button>
-              <Link to={"/admin-login"}>
+              <Link to={"/therapist-login"}>
                 <p
                   onClick={handleClick}
                   className="text-cyan-500 text-base cursor-pointer"
@@ -402,4 +369,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Therapist_SignUp;

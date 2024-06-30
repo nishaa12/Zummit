@@ -30,7 +30,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://zummit-kefo.onrender.com/api/users/register",
+        "https://zummit-chandan.onrender.com/api/admin/adminLogin",
         {
           method: "POST",
           headers: {
@@ -53,7 +53,7 @@ const Login = () => {
 
       //reload kee baad bhi data remain constant
       localStorage.setItem("token", data.token);
-      navigate("/userdashboard");
+      navigate("/admin-dashboard");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -62,7 +62,7 @@ const Login = () => {
   const loginUser = async (loginData) => {
     try {
       const response = await fetch(
-        "https://zummit-kefo.onrender.com/api/users/login",
+        "https://zummit-chandan.onrender.com/api/admin/adminLogin",
         {
           method: "POST",
           headers: {
@@ -81,7 +81,7 @@ const Login = () => {
       const data = await response.json();
       console.log(data);
       dispatch(addUser(data.newUser));
-      navigate("/userdashboard");
+      navigate("/admin-dashboard");
       console.log(response);
 
       //jaao token leke aao
@@ -107,10 +107,7 @@ const Login = () => {
     }
   };
 
-  //re-render kee baad call karo
-  // useEffect(() => {
-  //   checkForToken();
-  // }, []);
+
 
   const handleClick = () => {
     setSignUp(!signUp);
@@ -251,12 +248,12 @@ const Login = () => {
           )}
           <div className="w-[50%] flex flex-col gap-5 shadow-lg rounded-lg  bg-white p-5">
             <p className="text-center text-3xl font-medium">Login</p>
-            <div className="font-bold text-xl">
-              <p>Client</p>
+            <div className="font-semibold text-2xl">
+              <p>Admin</p>
             </div>
 
             {!showSection ? (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col font-medium text-lg gap-3">
                 {!signUp && (
                   <input
                     className="bg-cyan-100  p-2 w-[100%]  outline-none rounded-lg"
@@ -296,16 +293,16 @@ const Login = () => {
                 <p className="m-0 p-0 text-red-600"> {error} </p>
                 <button
                   onClick={handleSubmission}
-                  className="w-[40%] rounded-lg bg-yellow p-2 text-green-500 text-base"
+                  className="w-[40%] rounded-lg bg-yellow p-2 text-green-500"
                 >
-                  {!signUp ? "Login" : "Send OTP"}
+                  {signUp ? "Login" : "Send OTP"}
                 </button>
                 <Link to={"/admin-register"}>
-                  <p className="text-cyan-500 cursor-pointer">SignUp</p>
+                  <p className="text-cyan-500 text-base cursor-pointer">SignUp</p>
                 </Link>
                 {signUp ? (
                   <Link to="/forgot-password">
-                    <p className="text-cyan-500 cursor-pointer mt-[-10px]">
+                    <p className="text-cyan-500 text-base cursor-pointer mt-[-10px]">
                       Forgot Password?
                     </p>
                   </Link>
