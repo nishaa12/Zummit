@@ -30,7 +30,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://zummit-kefo.onrender.com/api/users/register",
+        "https://zummit-chandan.onrender.com/api/admin/adminLogin",
         {
           method: "POST",
           headers: {
@@ -53,7 +53,7 @@ const Login = () => {
 
       //reload kee baad bhi data remain constant
       localStorage.setItem("token", data.token);
-      navigate("/userdashboard");
+      navigate("/admin-dashboard");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -62,7 +62,7 @@ const Login = () => {
   const loginUser = async (loginData) => {
     try {
       const response = await fetch(
-        "https://zummit-kefo.onrender.com/api/users/login",
+        "https://zummit-chandan.onrender.com/api/admin/adminLogin",
         {
           method: "POST",
           headers: {
@@ -81,7 +81,7 @@ const Login = () => {
       const data = await response.json();
       console.log(data);
       dispatch(addUser(data.newUser));
-      navigate("/userdashboard");
+      navigate("/admin-dashboard");
       console.log(response);
 
       //jaao token leke aao
@@ -107,10 +107,7 @@ const Login = () => {
     }
   };
 
-  //re-render kee baad call karo
-  // useEffect(() => {
-  //   checkForToken();
-  // }, []);
+
 
   const handleClick = () => {
     setSignUp(!signUp);
@@ -301,11 +298,11 @@ const Login = () => {
                   {signUp ? "Login" : "Send OTP"}
                 </button>
                 <Link to={"/admin-register"}>
-                  <p className="text-cyan-500 cursor-pointer">SignUp</p>
+                  <p className="text-cyan-500 text-base cursor-pointer">SignUp</p>
                 </Link>
                 {signUp ? (
                   <Link to="/forgot-password">
-                    <p className="text-cyan-500 cursor-pointer mt-[-10px]">
+                    <p className="text-cyan-500 text-base cursor-pointer mt-[-10px]">
                       Forgot Password?
                     </p>
                   </Link>
