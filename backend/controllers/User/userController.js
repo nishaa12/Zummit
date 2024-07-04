@@ -2,8 +2,6 @@ const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../../models/User/userModel");
-const UpcomingGroups = require("../../models/User/upcomingGroups");
-
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
@@ -133,59 +131,63 @@ const logout = asyncHandler(async (req, res) => {
   });
 });
 
-const getUser = (req, res) => {
-  if (token) {
-    const user = User.findBy(body.input);
-    res.status(200).json({
-      success: true,
-      data: user,
-      msg: "user found",
-    });
-  }
-};
+const getUser = asyncHandler(async (req, res) => {
+  const { userToken } = req.body;
+    if (!userToken) {
+        return res.status(401).json({ error: "Unauthorized user" });
+    }
+    try {
+      const decoded = jwt.verify(userToken, process.env.JWT_SECRET);
+      const userId = decoded.id;
+      console.log(decoded);
+      const user = await User.findById(userId).select('-password');
 
-const upcomingGroups = asyncHandler(async (req, res)=> {
-  try {
-    const groups = await UpcomingGroups.find();
-    res.status(200).json(groups);
-  } catch (err) {
-    console.error("Error fetching upcoming groups", err);
-    res.status(500).json({ error: "Internal Server Error" });
+      if (!user) {
+          return res.status(404).json({ error: "User not found" });
+      }
+
+      res.status(200).json({
+          success: true,
+          data: user,
+          message: "User retrieved successfully",
+      });
+  } catch (error) {
+      console.error(`Error verifying user by token: ${error.message}`);
+      res.status(500).json({ message: "Internal server error" });
   }
 });
 
 const VerifyClient_ByToken = asyncHandler(async (req, res) => {
-  try{
-    const authToken = req.cookies.token
-    if(!authToken){
-      return res.status(401).json({ error: "Unauthorized user"})
+  try {
+    const authToken = req.cookies.token;
+    if (!authToken) {
+      return res.status(401).json({ error: "Unauthorized user" });
     }
 
-    const { id } = jwt.verify(authToken, process.env.JWT_SECRET)
+    const { id } = jwt.verify(authToken, process.env.JWT_SECRET);
 
-    const client = await User.findOne({ _id : id})
+    const client = await User.findOne({ _id: id });
 
-    if(!client._id){
-      return res.status(401).json({ error: "Invalid token"})
+    if (!client._id) {
+      return res.status(401).json({ error: "Invalid token" });
     }
 
-    const { _id, name, role } = client
+    const { _id, name, role } = client;
 
     return res.status(200).json({
       client: { _id, name, role },
       success: true,
-      message: "User authorized"
-    })
-  }catch(err){
-    return res.status(500).json({ message: "Internal server error" })
+      message: "User authorized",
+    });
+  } catch (err) {
+    return res.status(500).json({ message: "Internal server error" });
   }
-})
+});
 
 module.exports = {
   registerUser,
   loginUser,
   logout,
   getUser,
-  upcomingGroups,
-  VerifyClient_ByToken
+  VerifyClient_ByToken,
 };
