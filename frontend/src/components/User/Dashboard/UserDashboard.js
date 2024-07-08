@@ -1,25 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Side_Navbar from "./Side_Navbar";
-import ArrowRightCircle from "./images/SVG_files/ArrowRightCircle.svg";
+import Side_Navbar from "../UserSidebar";
+import IndividualThearapy from "../../images/Individual Therapy.png";
+import GroupTherapyImg from "../../images/Group-Therapy-img.png";
+import SupportGroupImg from "../../images/Support_Group-img.png";
+import UpcomingGroupsImg from "../../images/Upcoming_Groups_Image.png";
+
+
 function UserDashboard() {
   // Card Data
   const therapyOptions = [
     {
       title: "Individual Therapy",
-      imageUrl: "./images/Individual Therapy.png",
+      imageUrl: IndividualThearapy,
       altText: "An icon representing individual therapy",
       linkTo: "/services/individual-therapy",
     },
     {
       title: "Group Therapy",
-      imageUrl: "./images/Group-Therapy-img.png",
+      imageUrl: GroupTherapyImg,
       altText: "An icon representing group therapy",
       linkTo: "/services/group-therapy",
     },
     {
       title: "Support Group",
-      imageUrl: "./images/Support_Group-img.png",
+      imageUrl: SupportGroupImg,
       altText: "An icon representing support group",
       linkTo: "/services/support-group",
     },
@@ -34,13 +39,25 @@ function UserDashboard() {
         <Link to={linkTo} className="hero-img-link">
           <img
             loading="lazy"
-            src={require(`${imageUrl}`)}
+            src={imageUrl}
             alt={altText}
             className="hero-img transition ease-in-out duration-700 group-hover:scale-[1.3] w-48"
           />
         </Link>
         <div className="invisible ml-14 group-hover:visible group-hover:flex w-full justify-end ">
-        <img src={ArrowRightCircle} alt="Arrow Right Circle" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="black"
+            class="bi bi-arrow-right-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"
+            />
+          </svg>
         </div>
       </div>
     </div>
@@ -52,7 +69,7 @@ function UserDashboard() {
       title: "The Power of Therapy in Today's Stressful World",
       description:
         "Discover how therapy is becoming a transformative tool for individuals navigating the complexities of modern life. ",
-      imageUrl: "./images/Upcoming_Groups_Image.png",
+      imageUrl: UpcomingGroupsImg,
       createdBy: "Andy Falld",
       startsOn: "21/02/2023",
       sessionsCount: "10",
@@ -63,7 +80,7 @@ function UserDashboard() {
       title: "The Power of Therapy in Today's Stressful World",
       description:
         "Discover how therapy is becoming a transformative tool for individuals navigating the complexities of modern life. ",
-      imageUrl: "./images/Upcoming_Groups_Image.png",
+      imageUrl: UpcomingGroupsImg,
       createdBy: "Andy Falld",
       startsOn: "21/02/2023",
       sessionsCount: "10",
@@ -74,7 +91,7 @@ function UserDashboard() {
       title: "The Power of Therapy in Today's Stressful World",
       description:
         "Discover how therapy is becoming a transformative tool for individuals navigating the complexities of modern life. ",
-      imageUrl: "./images/Upcoming_Groups_Image.png",
+      imageUrl: UpcomingGroupsImg,
       createdBy: "Andy Falld",
       startsOn: "21/02/2023",
       sessionsCount: "10",
@@ -97,7 +114,7 @@ function UserDashboard() {
       <div className="h-[120px] flex mb-[15px]">
         <img
           className="w-[112px] h-[112px] mr-[15px]"
-          src={require(`${imageURL}`)}
+          src={imageURL}
           alt="cards"
         />
         <div className="flex">
@@ -192,3 +209,4 @@ function UserDashboard() {
 }
 
 export default UserDashboard;
+
