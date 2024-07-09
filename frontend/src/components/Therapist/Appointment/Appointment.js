@@ -115,8 +115,8 @@ const Appointment = () => {
           <h1 className="w-[18%] ">Client Name</h1>
           <h1 className="w-[18%]">Appointment Time</h1>
           <h1 className="w-[18%] ">Therapy type</h1>
-          <h1 className="w-[10%]  text-end">Amount</h1>
-          <h1 className="w-[14%] ">Status</h1>
+          <h1 className="w-[10%]  text-center">Amount</h1>
+          <h1 className="w-[14%] text-center ">Status</h1>
           <h1>Reason</h1>
         </div>
 
@@ -132,11 +132,13 @@ const Appointment = () => {
                   <span>{item.appointmentTime.time}</span>
                 </p>
               </div>
-              <h1 className="w-[18%] ">{item.therapyType}</h1>
-              <h1 style={getStyle(item.report)} className="w-[10%] text-end ">
-                {item.Amount}
-              </h1>
-              <div className="w-[14%] flex justify-center items-center">
+              <div className="w-[18%] ">
+                <h1>{item.therapyType}</h1>
+              </div>
+              <div className="w-[10%] text-center">
+                <h1 style={getStyle(item.report)}>{item.Amount}</h1>
+              </div>
+              <div className="w-[14%] flex justify-center h-fit">
                 <button
                   style={{ backgroundColor: getButtonBgColor(item.report) }}
                   className="py-1 rounded-md w-[7rem] "
@@ -144,12 +146,14 @@ const Appointment = () => {
                   {item.Status}
                 </button>
               </div>
+              <div>
               <h1
                 style={{ color: getReasonColor(item.report) }}
                 className="w-[10rem]  "
               >
                 {item.reason}
               </h1>
+              </div>
             </div>
           ))}
         </div>

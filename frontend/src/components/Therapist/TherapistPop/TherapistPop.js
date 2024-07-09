@@ -76,19 +76,19 @@ const TherapistPop = () => {
   return (
     <>
       {showTherapistPop && (
-        <div className="absolute  bg-black bg-opacity-50 w-screen h-screen flex items-center justify-center">
+        <div className="fixed bg-black bg-opacity-50 w-screen h-screen flex items-center justify-center">
           <div className="absolute  top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 p-10 bg-[#4DB3CB] h-[80vh] w-[80vw] shadow-xl rounded-md">
           
             <h1 className="font-semibold mb-2 text-3xl">
               Please Enter Your Details
             </h1>
             <form>
-              <div className="flex gap-20">
+              <div className="flex gap-5">
                 {/* left */}
-                <div>
-                  <div>
+                <div className="w-64">
+                  <div className="flex flex-col items-center">
                     <div
-                      className={`w-48  h-48 mt-5 rounded-full text-xs overflow-hidden cursor-pointer border-4 flex flex-col justify-center items-center border-dashed bg-[#FDFEE6] hover:bg-[#fcfced] ${
+                      className={`w-48 h-48 mt-5 rounded-full text-xs overflow-hidden cursor-pointer border-4 flex flex-col justify-center items-center border-dashed bg-[#FDFEE6] hover:bg-[#fcfced] ${
                         image ? "border-[#35ff89]" : " border-[#5891ed]"
                       }`}
                       onDrop={handleDrop}
@@ -117,18 +117,18 @@ const TherapistPop = () => {
                         src={image ? image : uploadImg}
                         className={`${
                           image
-                            ? "w-full object-cover  object-center"
+                            ? "w-full object-cover object-center"
                             : "w-32 animate-bounce animate-[bounce_2.5s_ease-in-out_infinite]"
                         }`}
                         alt=""
                       />
                       <p>{image ? fileName : "Drag or Drop Your Picture"}</p>
                     </div>
-                    <div className="flex justify-center mt-5">
-                      <p className="text-red-500 font-medium  whitespace-nowrap">
+                    <div className="flex justify-center w-full  mt-5">
+                      <p className="text-red-500 font-medium ">
                         {imageerror} 
                       </p>
-                      <p className="font-medium text-center bg-white rounded-md px-2 py-1">{fileName}</p>
+                      {fileName && <p className="font-medium text-center bg-white rounded-md px-2 py-1">{fileName}</p>}
                     </div>
                   </div>
                 </div>
