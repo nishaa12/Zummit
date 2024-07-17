@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import BellIcon from "../../images/SVG_files/BellIcon.svg";
-import SearchBar from "../../images/SVG_files/SearchBar.svg"
 import { BASE_ADMIN } from "../../../utils/constants";
-import { useNavigate } from "react-router-dom";
+import SearchBar from "../SearchBar";
 
 const Resources = () => {
-  const [addedReview, setAddedReview] = useState([])
+  const [addedReview, setAddedReview] = useState([]);
 
   useEffect(() => {
+
+    const token = localStorage.getItem("adminToken");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }; 
+
     axios
-      .post(BASE_ADMIN + "/resources", {
-        input: "Dom@gmail.com",
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NWFiOGNjNDQ1MmIxM2Q1MGJmYTYzNCIsImlhdCI6MTcxNzIyMTU4MCwiZXhwIjoxNzE5ODEzNTgwfQ.ZKxsQmALrx7CpkOpNzA1i1Ub1exmI9ghmsdY9bQVzuI",
-      })
+      .get(BASE_ADMIN + "/resources", config)
       .then((response) => {
         if (response.data.success) {
           setAddedReview(response.data.resource);
@@ -26,13 +33,6 @@ const Resources = () => {
         console.error("Error fetching appointments:", error);
       });
   }, []);
-  const navigate = useNavigate()
-
-  const logout = () => {
-    localStorage.clear("adminToken");
-    navigate('/admin-login')
-
-  }
 
   const pendingStyle = { color: "#FED365" };
   const publishedStyle = { color: "#02B04A" };
@@ -88,23 +88,9 @@ const Resources = () => {
   );
   return (
     <div className="w-full m-10 ">
-      <div className="flex justify-between gap-10 items-center">
-        <div className="flex items-center bg-white w-[80%] border  pl-4 rounded-lg border-[#B4F0FF] ">
-          <img src={SearchBar} alt="SearchBar" />
 
-         <img src={SearchBar} alt="SearchBar"/>
+      <SearchBar />
 
-          <input
-            type="text"
-            placeholder="Search"
-            className="h-12 ml-5 rounded-lg outline-none w-[100%]"
-          />
-        </div>
-        <div className="p-2 rounded-full ">
-          <img src={BellIcon} alt=" BellIcon " />
-        </div>
-        <button onClick={logout} className="bg-[#0190B1] px-4 py-2 rounded-md text-white">Logout</button>
-      </div>
       <div className="flex w-[90%] justify-between items-center">
         <h1 className="text-2xl  my-8">Groups</h1>
         <button className="rounded-md py-2 px-4   text-lg bg-[#00677F] text-white">

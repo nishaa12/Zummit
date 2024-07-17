@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FlowerImage from "../../images/flower-img.png";
-import BellIcon from "../../images/SVG_files/BellIcon.svg";
-import SearchBar from "../../images/SVG_files/SearchBar.svg";
 import { BASE_ADMIN } from "../../../utils/constants";
-import { useNavigate } from "react-router-dom";
+import SearchBar from "../SearchBar";
 const Groups = () => {
   const [groupsDetails, setGroupsDetails] = useState([])
   useEffect(() => {
+
+    const token = localStorage.getItem("adminToken");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
     axios
-      .post(BASE_ADMIN + "/groupsdetails", {
-        input: "Dom@gmail.com",
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NWFiOGNjNDQ1MmIxM2Q1MGJmYTYzNCIsImlhdCI6MTcxNzIyMTU4MCwiZXhwIjoxNzE5ODEzNTgwfQ.ZKxsQmALrx7CpkOpNzA1i1Ub1exmI9ghmsdY9bQVzuI",
-      })
+      .get(BASE_ADMIN + "/groupsdetails",  config)
       .then((response) => {
         if (response.data.success) {
           setGroupsDetails(response.data.groups);
@@ -25,32 +32,10 @@ const Groups = () => {
         console.error("Error fetching appointments:", error);
       });
   }, []);
-  const navigate = useNavigate()
 
-  const logout = () => {
-    localStorage.clear("adminToken");
-    navigate('/admin-login')
-
-  }
   return (
     <div className="w-full m-10 ">
-      <div className="flex justify-between gap-10 items-center">
-        <div className="flex items-center bg-white w-[80%] border  pl-4 rounded-lg border-[#B4F0FF] ">
-          <img src={SearchBar} alt="SearchBar" />
-
-         <img src={SearchBar} alt="SearchBar"/>
-
-          <input
-            type="text"
-            placeholder="Search"
-            className="h-12 ml-5 rounded-lg outline-none w-[100%]"
-          />
-        </div>
-        <div className="p-2 rounded-full ">
-          <img src={BellIcon} alt=" BellIcon " />
-        </div>
-        <button onClick={logout} className="bg-[#0190B1] px-4 py-2 rounded-md text-white">Logout</button>
-      </div>
+      <SearchBar />
       <div className="flex w-[90%] justify-between items-center">
         <h1 className="text-2xl  my-8">Groups</h1>
       </div>
